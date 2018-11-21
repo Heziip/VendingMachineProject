@@ -30,7 +30,7 @@ public class Product {
       return price;
    }
 
-   public int getQuantity() {
+   int getQuantity() {
       return quantity;
    }
 

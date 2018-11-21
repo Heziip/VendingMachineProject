@@ -2,15 +2,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.FileWriter;
 import java.util.*;
 
 /**
  A vending machine.
  */
 class VendingMachine {
-    private final String productFileName = "stock.csv";
-    private final String moneyFileName = "money.csv";
-    private final String operatorFileName = "operators.csv";
+    private static final File moneyFileName = new File ("money.csv");
+    private static File productFileName = new File ("stock.csv");
+    private static File operatorFileName = new File ("operators.csv");
     private ArrayList<Product> products;
     private CoinSet coins;
     private CoinSet currentCoins;
@@ -25,12 +26,12 @@ class VendingMachine {
         currentCoins = new CoinSet();
     }
 
-    void loadProducts() {
-        File f = new File(productFileName);
-        if (f.isFile()) {
+    void loadProducts() throws IOException {
+        FileWriter fw = new FileWriter(productFileName,true);
+        if (productFileName.length() != 0) {
             Scanner scanner = null;
             try {
-                scanner = new Scanner(f);
+                scanner = new Scanner(productFileName);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -38,14 +39,13 @@ class VendingMachine {
             while (scanner.hasNext()) {
                 String line = scanner.nextLine();
                 String[] values = line.split(",");
-                for(int i = 0; i < Integer.parseInt(values[2]); i++){
-                    products.add(new Product(values[0], Double.parseDouble(values[1]), Integer.parseInt(values[2])));
-                }
+                products.add(new Product(values[0], Double.parseDouble(values[1]), Integer.parseInt(values[2])));
+
             }
             scanner.close();
         } else {
             try {
-                f.createNewFile();
+                productFileName.createNewFile();
                 System.out.println("Created new " + productFileName);
             } catch (IOException e) {
                 System.out.println("Failed to create: " + productFileName + "\n" + e.getStackTrace());
@@ -53,12 +53,12 @@ class VendingMachine {
         }
     }
 
-    void loadMoney() {
-        File f = new File(moneyFileName);
-        if (f.isFile()) {
+    void loadMoney() throws IOException {
+        FileWriter fw = new FileWriter(moneyFileName,true);
+        if (moneyFileName.length() != 0) {
             Scanner scanner = null;
             try {
-                scanner = new Scanner(f);
+                scanner = new Scanner(moneyFileName);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -71,7 +71,7 @@ class VendingMachine {
             scanner.close();
         } else {
             try {
-                f.createNewFile();
+                moneyFileName.createNewFile();
                 System.out.println("Created new " + moneyFileName);
             } catch (IOException e) {
                 System.out.println("Failed to create: " + moneyFileName + "\n" + e.getStackTrace());
@@ -79,12 +79,12 @@ class VendingMachine {
         }
     }
 
-    void loadOperator() {
-        File f = new File(operatorFileName);
-        if (f.isFile()) {
+    void loadOperator() throws IOException {
+        FileWriter fw = new FileWriter(operatorFileName);
+        if (operatorFileName.length() != 0){
             Scanner scanner = null;
             try {
-                scanner = new Scanner(f);
+                scanner = new Scanner(operatorFileName);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -97,7 +97,7 @@ class VendingMachine {
             scanner.close();
         } else {
             try {
-                f.createNewFile();
+                operatorFileName.createNewFile();
                 System.out.println("Created new " + operatorFileName);
             } catch (IOException e) {
                 System.out.println("Failed to create: " + operatorFileName + "\n" + e.getStackTrace());

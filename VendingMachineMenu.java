@@ -8,6 +8,7 @@ class VendingMachineMenu {
    private Scanner in;
    private static Coin[] coins = { new Coin(0.05, "5 cent"),
            new Coin(0.1, "10 cent"),
+           new Coin(0.2, "20 cent"),
            new Coin(0.5, "50 cent"),
            new Coin(1, "euro") };
 
